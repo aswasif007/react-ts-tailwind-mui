@@ -1,8 +1,28 @@
 import { Box, Typography } from '@mui/material';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom';
 import { HomePage, LoginPage } from './pages';
 
 import './App.css';
+import { useContext } from 'react';
+import { AuthContext } from './contexts';
+
+function Private() {
+  const location = useLocation();
+
+  const { user } = useContext(AuthContext);
+  if (!user) return <Navigate to="/login" />;
+
+  if (location.pathname === '/login') return <Navigate to="/home" />;
+
+  return <Outlet />;
+}
 
 function App() {
   return (
@@ -17,8 +37,10 @@ function App() {
       <Box className="flex-grow">
         <BrowserRouter>
           <Routes>
-            <Route path="/home" Component={HomePage} />
             <Route path="/login" Component={LoginPage} />
+            <Route path="/" Component={Private}>
+              <Route path="/home" Component={HomePage} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </Box>
