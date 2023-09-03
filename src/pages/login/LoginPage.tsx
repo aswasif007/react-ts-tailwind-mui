@@ -14,7 +14,7 @@ function LoginPage() {
     onSubmit: (data: any) => UserResource.login(data.username, data.password),
     onSuccess: (loggedUser: UserResource) => {
       setUser(loggedUser);
-      navigate('/');
+      navigate('/home');
     },
     onError: console.log,
   });

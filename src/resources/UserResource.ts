@@ -18,7 +18,10 @@ class UserResource extends BaseResource<UserData> {
       email: 'john.doe@test.com',
     });
 
-    return new UserResource(userData);
+    const user = new UserResource(userData);
+    user.updateStore();
+
+    return user;
   }
 }
 
